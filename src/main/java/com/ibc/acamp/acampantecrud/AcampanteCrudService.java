@@ -2,6 +2,7 @@ package com.ibc.acamp.acampantecrud;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class AcampanteCrudService {
@@ -15,5 +16,9 @@ public class AcampanteCrudService {
 
     public boolean save(Acampante acampante) {
         return repository.save(acampante);
+    }
+
+    public List<Acampante> fetch() {
+        return repository.fetch();
     }
 }

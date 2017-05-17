@@ -1,6 +1,8 @@
 package com.ibc.acamp.acampantecrud;
 
-@FunctionalInterface
+import java.util.List;
+
 public interface DataStoreRepository {
     boolean save(Acampante data);
+    List<Acampante> fetch();
 }

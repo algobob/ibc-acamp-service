@@ -4,6 +4,8 @@ import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
 
+import java.util.List;
+
 public class AcampanteDataStoreRepository implements DataStoreRepository {
 
     private static final String DB_DRIVER = "org.h2.Driver";
@@ -40,4 +42,13 @@ public class AcampanteDataStoreRepository implements DataStoreRepository {
 
         return true;
     }
- }
+
+    @Override
+    public List<Acampante> fetch() {
+        String sql = "SELECT * FROM acampantes";
+
+        try(Connection con = sql2o.open()) {
+            return con.createQuery(sql).executeAndFetch(Acampante.class);
+        }
+    }
+}

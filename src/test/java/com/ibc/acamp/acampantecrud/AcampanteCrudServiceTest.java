@@ -9,6 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
@@ -41,5 +44,15 @@ public class AcampanteCrudServiceTest {
 
         assertThat(service.save(acampante),is(true));
         verify(repository).save(acampante);
+    }
+
+    @Test
+    public void fetch() throws Exception {
+
+        when(repository.fetch()).thenReturn(asList(Acampante.builder().build()));
+
+        List<Acampante> result = service.fetch();
+        assertThat(result.isEmpty(),is(false));
+
     }
 }

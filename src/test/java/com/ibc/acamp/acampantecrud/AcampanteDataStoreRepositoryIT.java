@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import javax.inject.Inject;
 
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -34,4 +36,11 @@ public class AcampanteDataStoreRepositoryIT {
 
     }
 
+    @Test
+    public void fetch() throws Exception {
+
+        List result = repository.fetch();
+        assertThat(result.size()>0,is(true));
+
+    }
 }
