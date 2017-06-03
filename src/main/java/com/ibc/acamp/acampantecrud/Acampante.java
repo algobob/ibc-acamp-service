@@ -10,7 +10,7 @@ import lombok.ToString;
 @Builder
 @Getter
 public class Acampante {
-    private final int id;
+    private final Integer id;
     private final String nome;
     private final int idade;
     private final String sexo;
