@@ -5,4 +5,6 @@ import java.util.List;
 public interface DataStoreRepository {
     boolean save(Acampante data);
     List<Acampante> fetch();
+
+    boolean update(Acampante acampante);
 }

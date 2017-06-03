@@ -21,4 +21,8 @@ public class AcampanteCrudService {
     public List<Acampante> fetch() {
         return repository.fetch();
     }
+
+    public boolean update(Acampante acampante) {
+        return repository.update(acampante);
+    }
 }

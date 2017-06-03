@@ -34,11 +34,7 @@ public class AcampanteCrudServiceTest {
     @Test
     public void testSaveAcampante(){
 
-        Acampante acampante = Acampante.builder()
-                .nome("acampante-1")
-                .idade(15)
-                .sexo("masculino")
-                .build();
+        Acampante acampante = buildAcampante();
 
         when(repository.save(acampante)).thenReturn(true);
 
@@ -53,6 +49,27 @@ public class AcampanteCrudServiceTest {
 
         List<Acampante> result = service.fetch();
         assertThat(result.isEmpty(),is(false));
+        verify(repository).fetch();
 
+    }
+
+    @Test
+    public void update() throws Exception {
+        Acampante acampante = buildAcampante();
+        when(repository.update(acampante)).thenReturn(true);
+
+        boolean result = service.update(acampante);
+
+        assertThat(result,is(true));
+        verify(repository).update(acampante);
+
+    }
+
+    private Acampante buildAcampante() {
+        return Acampante.builder()
+                .nome("acampante-1")
+                .idade(15)
+                .sexo("masculino")
+                .build();
     }
 }
