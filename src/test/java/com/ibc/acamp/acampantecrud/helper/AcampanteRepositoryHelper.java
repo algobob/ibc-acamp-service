@@ -34,7 +34,8 @@ public class AcampanteRepositoryHelper {
     public void insertDumbData() {
         String sql =
                 "INSERT INTO acampantes(nome, sexo, idade) " +
-                        "VALUES ('abcd', 'feminino', 12)";
+                        "VALUES ('maria', 'feminino', 12)," +
+                        "('joao', 'masculino', 13) ";
 
         try (Connection con = sql2o.open()) {
             con.createQuery(sql).executeUpdate();

@@ -1,38 +1,40 @@
 package com.ibc.acamp.acampantecrud;
 
-import com.ibc.acamp.Treino;
-import com.jayway.restassured.RestAssured;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import com.google.inject.Guice;
+import com.ibc.acamp.acampantecrud.helper.AcampanteRepositoryHelper;
+import com.ibc.acamp.suport.SimpleModule;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import spark.Spark;
 
 import javax.inject.Inject;
+import java.util.List;
 
-import static com.jayway.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
-public class AcampanteServiceControllerIT {
+public class AcampanteServiceIT {
 
-    @Inject
-    private AcampanteService acampanteService;
+    @Inject private AcampanteService acampanteService;
+    @Inject private AcampanteRepositoryHelper helper;
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-        RestAssured.port = 4567;
-        RestAssured.basePath = "/";
-        RestAssured.baseURI = "http://localhost";
-
-        Treino.main(null);
+    @Before
+    public void setUp() throws Exception {
+        Guice.createInjector(new SimpleModule()).injectMembers(this);
+        helper.createTables();
+        helper.insertDumbData();
     }
 
     @Test
     public void shouldListAllAcampantesSuccessfully(){
-        given().when().get("/acampantes").then().statusCode(200);
+        List<Acampante> acampantes = acampanteService.fetch();
+
+        assertThat(acampantes.size(), is(2));
     }
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-        Spark.stop();
+    @After
+    public void tearDown() throws Exception {
+        helper.dropTables();
     }
 
 }

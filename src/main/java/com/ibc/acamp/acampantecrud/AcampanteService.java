@@ -5,9 +5,9 @@ import javax.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class AcampanteService {
+public class AcampanteService implements AcampanteServiceInterface{
 
-    private final DataStoreRepository repository;
+    private DataStoreRepository repository;
 
     @Inject
     public AcampanteService(DataStoreRepository repository){

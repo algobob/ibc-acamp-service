@@ -61,7 +61,7 @@ public class AcampanteServiceTest {
 
         boolean result = service.update(acampanteUpdated);
 
-        assertThat(result,is(acampanteUpdated));
+        assertThat(result,is(true));
         verify(repository).update(acampanteUpdated);
 
     }
