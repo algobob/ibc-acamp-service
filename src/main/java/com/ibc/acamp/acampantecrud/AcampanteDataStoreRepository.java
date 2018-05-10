@@ -8,7 +8,7 @@ import java.util.List;
 public class AcampanteDataStoreRepository implements DataStoreRepository {
 
     private static final String DB_DRIVER = "org.h2.Driver";
-    private static final String DB_CONNECTION = "jdbc:h2:mem:test.db;";
+    private static final String DB_CONNECTION = "jdbc:h2:file:~/test;";
     private static final String DB_USER = "";
     private static final String DB_PASSWORD = "";
 

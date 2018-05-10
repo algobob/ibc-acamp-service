@@ -1,7 +1,7 @@
 package com.ibc.acamp.acampantecrud;
 
 import com.google.inject.Guice;
-import com.ibc.acamp.acampantecrud.helper.AcampanteRepositoryHelper;
+import com.ibc.acamp.AcampanteRepositoryHelper;
 import com.ibc.acamp.suport.SimpleModule;
 import org.junit.After;
 import org.junit.Before;

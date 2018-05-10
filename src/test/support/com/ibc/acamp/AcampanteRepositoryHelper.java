@@ -1,4 +1,4 @@
-package com.ibc.acamp.acampantecrud.helper;
+package com.ibc.acamp;
 
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
