@@ -1,14 +1,15 @@
 package com.ibc.acamp;
 
+import com.ibc.acamp.suport.PropertiesHelper;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 public class AcampanteRepositoryHelper {
 
-    private static final String DB_DRIVER = "org.h2.Driver";
-    private static final String DB_CONNECTION = "jdbc:h2:mem:test.db;DB_CLOSE_DELAY=-1";
-    private static final String DB_USER = "";
-    private static final String DB_PASSWORD = "";
+    private static final String DB_DRIVER = PropertiesHelper.getProps("db.jdbc.driver");
+    private static final String DB_CONNECTION = PropertiesHelper.getProps("db.jdbc.url");
+    private static final String DB_USER = PropertiesHelper.getProps("db.jdbc.user");
+    private static final String DB_PASSWORD = PropertiesHelper.getProps("db.jdbc.password");
 
     private Sql2o sql2o;
 

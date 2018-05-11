@@ -2,6 +2,7 @@ package com.ibc.acamp.acampantecrud;
 
 import com.google.inject.Guice;
 import com.ibc.acamp.AcampanteRepositoryHelper;
+import com.ibc.acamp.suport.PropertiesHelper;
 import com.ibc.acamp.suport.SimpleModule;
 import org.junit.After;
 import org.junit.Before;
@@ -23,6 +24,7 @@ public class AcampanteDataStoreRepositoryIT {
 
     @Before
     public void setUp() throws Exception {
+        PropertiesHelper.load("test");
         Guice.createInjector(new SimpleModule()).injectMembers(this);
         helper.createTables();
         helper.insertDumbData();
