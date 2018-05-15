@@ -1,26 +1,19 @@
 sourceSets {
     integrationTest {
         java {
-            srcDirs file('src/test/integration-test/java')
-            srcDirs file('src/test/support')
+            srcDirs file('src/integration-test/java')
         }
-        resources { srcDir "src/test/integration-test/resources" }
+        resources { srcDirs file("src/integration-test/resources") }
 
         compileClasspath += main.output + test.output
         runtimeClasspath += main.output + test.output
     }
 
     apiTest {
-        java { srcDir file('src/test/api-test/java') }
-        resources { srcDir "src/test/api-test/resources" }
-
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-    }
-
-    unitTest {
-        java { srcDir file('src/test/unit-test/java') }
-        resources { srcDir "src/test/unit-test/resources" }
+        java {
+            srcDirs file('src/api-test/java')
+        }
+        resources { srcDirs file("src/api-test/resources") }
 
         compileClasspath += main.output + test.output
         runtimeClasspath += main.output + test.output

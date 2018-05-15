@@ -1,6 +1,6 @@
 package com.ibc.acamp.acampantecrud;
 
-import com.ibc.acamp.suport.PropertiesHelper;
+import com.ibc.acamp.support.PropertiesHelper;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -18,7 +18,6 @@ public class AcampanteDataStoreRepository implements DataStoreRepository {
     public AcampanteDataStoreRepository(){
         sql2o = new Sql2o(DB_CONNECTION,DB_USER, DB_PASSWORD);
     }
-
 
     @Override
     public boolean save(Acampante acampante) {

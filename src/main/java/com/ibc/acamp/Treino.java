@@ -1,25 +1,29 @@
 package com.ibc.acamp;
 
 import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.ibc.acamp.acampantecrud.AcampanteController;
-import com.ibc.acamp.acampantecrud.AcampanteService;
-import com.ibc.acamp.suport.PropertiesHelper;
-import com.ibc.acamp.suport.SimpleModule;
+import com.ibc.acamp.acampantecrud.AcampanteRouter;
+import com.ibc.acamp.acampantecrud.IAcampanteService;
+import com.ibc.acamp.support.PropertiesHelper;
+import com.ibc.acamp.support.SimpleModule;
 
+import javax.inject.Inject;
 import java.io.IOException;
 
 import static spark.Spark.get;
 
 public class Treino {
+
+    @Inject IAcampanteService acampanteService;
+
     public static void main(String[] args) throws IOException {
-        Injector injector = Guice.createInjector(new SimpleModule());
-        AcampanteService acampanteService = injector.getInstance(AcampanteService.class);
         PropertiesHelper.load(getEnv());
+        new Treino().init();
+    }
 
+    private void init() throws IOException {
+        Guice.createInjector(new SimpleModule()).injectMembers(this);
         get("/",(req,res) -> "teste!!!");
-
-        new AcampanteController(acampanteService);
+        new AcampanteRouter(acampanteService);
     }
 
     private static String getEnv() {
