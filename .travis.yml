@@ -15,7 +15,8 @@ jobs:
   include:
     - stage: Tests
       script: gradle test
-#      script: gradle integrationtest
+    - stage: Tests
+      script: gradle integrationtest
 #      script: gradle apitest
 #    - stage: unit tests
 #      script: "Running unit tests (2)"
