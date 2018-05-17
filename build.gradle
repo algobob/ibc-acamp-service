@@ -12,6 +12,10 @@ repositories {
     jcenter()
 }
 
+//required for heroku deploy
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
+
 configurations {
     integrationTestCompile.extendsFrom testCompile
     integrationTestRuntime.extendsFrom testRuntime
