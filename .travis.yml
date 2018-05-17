@@ -24,7 +24,7 @@ jobs:
       deploy: &heroku
         provider: heroku
         app: ibc-acamp-service-staging
-        api_key: $HEROKU_AUTH_TOKEN
+        api_key: 2e68b8cf-81e9-4ad0-a325-486a72cd897c
     - stage: test staging
       script: 'curl http://ibc-acamp-service-staging.herokuapp.com'
 #    - stage: deploy to production
