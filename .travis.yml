@@ -16,11 +16,9 @@ jobs:
     - stage: Tests
       script: gradle test
     - stage: Tests
-    - env:
-        - ENV=test
       script: gradle integrationtest
-#      script: gradle apitest
-#    - stage: unit tests
+    - stage: Tests
+      script: gradle apitest
 #      script: "Running unit tests (2)"
 #    - stage: deploy to staging
 #      script: skip
