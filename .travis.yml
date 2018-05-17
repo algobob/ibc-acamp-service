@@ -19,15 +19,14 @@ jobs:
       script: gradle integrationtest
     - stage: Tests
       script: gradle apitest
-#      script: "Running unit tests (2)"
-#    - stage: deploy to staging
-#      script: skip
-#      deploy: &heroku
-#        provider: heroku
-#        app: sf-stages-staging
-#        api_key: $HEROKU_AUTH_TOKEN
-#    - stage: test staging
-#      script: 'curl http://sf-stages-staging.herokuapp.com'
+    - stage: deploy to staging
+      script: skip
+      deploy: &heroku
+        provider: heroku
+        app: ibc-acamp-service-staging
+        api_key: $HEROKU_AUTH_TOKEN
+    - stage: test staging
+      script: 'curl http://ibc-acamp-service-staging.herokuapp.com'
 #    - stage: deploy to production
 #      script: skip
 #      deploy:
