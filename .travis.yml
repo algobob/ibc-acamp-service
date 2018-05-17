@@ -14,7 +14,7 @@ cache:
 jobs:
   include:
     - stage: Tests
-      script: gradle unitest
+      script: gradle test
 #      script: gradle integrationtest
 #      script: gradle apitest
 #    - stage: unit tests
