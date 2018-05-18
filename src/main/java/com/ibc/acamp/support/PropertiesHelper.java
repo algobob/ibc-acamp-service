@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public final class PropertiesHelper {
+public class PropertiesHelper {
 
     private static Properties appProps = new Properties();
 
@@ -18,9 +18,11 @@ public final class PropertiesHelper {
     }
 
     private static void loadDatabasePropertiesFromEnvVarsIfRequired(boolean isRequired) {
-        appProps.put("db.jdbc.url",System.getenv("JDBC_DATABASE_URL"));
-        appProps.put("db.jdbc.user",System.getenv("JDBC_DATABASE_USERNAME"));
-        appProps.put("db.jdbc.password",System.getenv("JDBC_DATABASE_PASSWORD"));
+        if (isRequired) {
+            appProps.put("db.jdbc.url", System.getenv("JDBC_DATABASE_URL"));
+            appProps.put("db.jdbc.user", System.getenv("JDBC_DATABASE_USERNAME"));
+            appProps.put("db.jdbc.password", System.getenv("JDBC_DATABASE_PASSWORD"));
+        }
     }
 
     private static InputStream getPropertiesFileAsStream(String propertiesFilePath) throws FileNotFoundException {
