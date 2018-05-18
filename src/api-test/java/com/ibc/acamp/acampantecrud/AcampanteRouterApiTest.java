@@ -1,7 +1,7 @@
 package com.ibc.acamp.acampantecrud;
 
 import com.google.inject.Guice;
-import com.ibc.acamp.Treino;
+import com.ibc.acamp.Main;
 import com.ibc.acamp.support.PropertiesHelper;
 import com.ibc.acamp.support.SimpleModule;
 import com.jayway.restassured.RestAssured;
@@ -24,7 +24,7 @@ public class AcampanteRouterApiTest {
     public void setUp() throws IOException {
         PropertiesHelper.load("test");
         RestAssured.baseURI="http://localhost:4567";
-        Treino.main(null);
+        Main.main(null);
         Guice.createInjector(new SimpleModule()).injectMembers(this);
         helper.createTables();
         helper.insertDumbData();

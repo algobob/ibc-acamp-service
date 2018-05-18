@@ -10,14 +10,16 @@ import javax.inject.Inject;
 import java.io.IOException;
 
 import static spark.Spark.get;
+import static spark.Spark.port;
 
-public class Treino {
+public class Main {
 
     @Inject IAcampanteService acampanteService;
 
     public static void main(String[] args) throws IOException {
+        port(getHerokuAssignedPort());
         PropertiesHelper.load(getEnv());
-        new Treino().init();
+        new Main().init();
     }
 
     private void init() throws IOException {
@@ -28,5 +30,13 @@ public class Treino {
 
     private static String getEnv() {
         return System.getenv("ENV") == null ? "dev" : System.getenv("ENV");
+    }
+
+    private static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
 }
