@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp build/classes:build/libs/* com.ibc.acamp.Main
+web: ./build/install/acamp-service/bin/acamp-service

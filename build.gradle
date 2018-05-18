@@ -2,8 +2,13 @@ group 'ibc_acamp'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
 apply from: 'gradle/sourceSets.gradle'
 apply from: 'gradle/dependencies.gradle'
+
+archivesBaseName = "acamp-service"
+applicationName = "acamp-service"
+mainClassName = "Main"
 
 sourceCompatibility = 1.8
 
@@ -13,8 +18,8 @@ repositories {
 }
 
 //required for heroku deploy
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
+defaultTasks = ['clean']
+task stage(dependsOn: ['clean', 'installApp'])
 
 configurations {
     integrationTestCompile.extendsFrom testCompile
