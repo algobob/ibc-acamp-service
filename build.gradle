@@ -7,7 +7,7 @@ apply from: 'gradle/sourceSets.gradle'
 apply from: 'gradle/dependencies.gradle'
 
 applicationName = "acamp-service"
-mainClassName = "Main"
+mainClassName = "com.ibc.acamp.Main"
 
 sourceCompatibility = 1.8
 
