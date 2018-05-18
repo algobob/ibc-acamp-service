@@ -6,7 +6,6 @@ apply plugin: 'application'
 apply from: 'gradle/sourceSets.gradle'
 apply from: 'gradle/dependencies.gradle'
 
-archivesBaseName = "acamp-service"
 applicationName = "acamp-service"
 mainClassName = "Main"
 
@@ -19,7 +18,7 @@ repositories {
 
 //required for heroku deploy
 defaultTasks = ['clean']
-task stage(dependsOn: ['clean', 'installApp'])
+task stage(dependsOn: ['clean', 'installDist'])
 
 configurations {
     integrationTestCompile.extendsFrom testCompile
