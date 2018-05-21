@@ -1,12 +1,16 @@
 package com.ibc.acamp.acampantecrud;
 
 import com.ibc.acamp.support.PropertiesHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.util.List;
 
 public class AcampanteDataStoreRepository implements DataStoreRepository {
+
+    private Logger LOGGER = LoggerFactory.getLogger("AcampanteDataStoreRepository");
 
     private static final String DB_DRIVER = PropertiesHelper.getProps("db.jdbc.driver");
     private static final String DB_CONNECTION = PropertiesHelper.getProps("db.jdbc.url");
@@ -15,7 +19,8 @@ public class AcampanteDataStoreRepository implements DataStoreRepository {
 
     private Sql2o sql2o;
 
-    public AcampanteDataStoreRepository(){
+    public AcampanteDataStoreRepository() throws ClassNotFoundException {
+
         sql2o = new Sql2o(DB_CONNECTION,DB_USER, DB_PASSWORD);
     }
 
@@ -43,10 +48,15 @@ public class AcampanteDataStoreRepository implements DataStoreRepository {
 
     @Override
     public List<Acampante> fetch() {
-        String sql = "SELECT * FROM acampantes";
+        LOGGER.info("[Get all acampantes][data repository] fetching acampantes from db...");
+
+        String sql = "SELECT * FROM acamp.acampantes";
 
         try(Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Acampante.class);
+        }catch (Exception ex){
+            LOGGER.error("[Get all acampantes][data repository] {}", ex.getMessage());
+            throw ex;
         }
     }
 

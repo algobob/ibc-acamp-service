@@ -5,7 +5,6 @@ import org.sql2o.Sql2o;
 
 public class AcampanteRepositoryHelper {
 
-    private static final String DB_DRIVER = PropertiesHelper.getProps("db.jdbc.driver");
     private static final String DB_CONNECTION = PropertiesHelper.getProps("db.jdbc.url");
     private static final String DB_USER = PropertiesHelper.getProps("db.jdbc.user");
     private static final String DB_PASSWORD = PropertiesHelper.getProps("db.jdbc.password");
