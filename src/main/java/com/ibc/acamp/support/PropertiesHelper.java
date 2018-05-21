@@ -14,7 +14,7 @@ public class PropertiesHelper {
     public static void load(String env) throws IOException {
         String propertiesFilePath = String.format("/%s.properties",env);
         appProps.load(getPropertiesFileAsStream(propertiesFilePath));
-        loadDatabasePropertiesFromEnvVarsIfRequired(env.equals("dev"));
+        loadDatabasePropertiesFromEnvVarsIfRequired(!env.equals("local"));
     }
 
     private static void loadDatabasePropertiesFromEnvVarsIfRequired(boolean isRequired) {
