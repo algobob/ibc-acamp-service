@@ -1,3 +1,7 @@
+plugins {
+    id "org.flywaydb.flyway" version "5.0.7"
+}
+
 group 'ibc_acamp'
 version '1.0-SNAPSHOT'
 
@@ -11,9 +15,18 @@ mainClassName = "com.ibc.acamp.Main"
 
 sourceCompatibility = 1.8
 
+
 repositories {
     mavenCentral()
     jcenter()
+}
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/'
+    user = 'postgres'
+    password = 'mysecretpassword'
+    locations = ['filesystem:src/main/resources/db/migrations']
+    schemas = ['acamp']
 }
 
 //required for heroku deploy
