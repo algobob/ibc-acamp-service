@@ -19,6 +19,8 @@ jobs:
       script: gradle integrationtest
     - stage: Tests
       script: gradle apitest
+    - stage: DB Migrations
+      script: gradle flywaymigrate -i
     - stage: deploy to staging
       script: skip
       deploy: &heroku
