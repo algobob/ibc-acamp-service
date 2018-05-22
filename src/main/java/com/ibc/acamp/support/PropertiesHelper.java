@@ -14,15 +14,19 @@ public class PropertiesHelper {
     public static void load(String env) throws IOException {
         String propertiesFilePath = String.format("/%s.properties",env);
         appProps.load(getPropertiesFileAsStream(propertiesFilePath));
-        loadDatabasePropertiesFromEnvVarsIfRequired(!env.equals("local"));
+        loadDatabasePropertiesFromEnvVarsIfRequired();
     }
 
-    private static void loadDatabasePropertiesFromEnvVarsIfRequired(boolean isRequired) {
-        if (isRequired) {
+    private static void loadDatabasePropertiesFromEnvVarsIfRequired() {
+        if (isHerokuEnv()) {
             appProps.put("db.jdbc.url", System.getenv("JDBC_DATABASE_URL"));
             appProps.put("db.jdbc.user", System.getenv("JDBC_DATABASE_USERNAME"));
             appProps.put("db.jdbc.password", System.getenv("JDBC_DATABASE_PASSWORD"));
         }
+    }
+
+    private static boolean isHerokuEnv() {
+        return System.getenv().containsKey("JDBC_DATABASE_URL");
     }
 
     private static InputStream getPropertiesFileAsStream(String propertiesFilePath) throws FileNotFoundException {
