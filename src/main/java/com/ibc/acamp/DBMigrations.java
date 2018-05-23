@@ -12,7 +12,6 @@ public class DBMigrations {
     private static Logger LOGGER = LoggerFactory.getLogger(DBMigrations.class);
 
     public static void main(String[] args) throws IOException {
-        PropertiesHelper.load("local");
         LOGGER.info("Running database migrations.");
         Flyway flyway = new Flyway();
         flyway.setLocations("filesystem:src/main/resources/db/migrations");
@@ -26,6 +25,7 @@ public class DBMigrations {
                     System.getenv("JDBC_DATABASE_USERNAME"),
                     System.getenv("JDBC_DATABASE_PASSWORD"));
         }else {
+            PropertiesHelper.load("local");
             LOGGER.info("Local env - Load database properties from properties file.");
 
             setFlywayDataSource(flyway,
