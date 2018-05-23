@@ -43,10 +43,8 @@ artifacts {
 }
 
 //required for heroku deploy
-//defaultTasks = ['clean']
-//task stage(dependsOn: ['build','clean','installDist'])
-task stage(dependsOn: ['build', 'clean','installDist'])
-build.mustRunAfter clean
+defaultTasks = ['clean']
+task stage(dependsOn: ['build','clean','installDist'])
 
 configurations {
     integrationTestCompile.extendsFrom testCompile
