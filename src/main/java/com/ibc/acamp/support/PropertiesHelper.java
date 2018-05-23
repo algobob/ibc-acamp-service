@@ -25,7 +25,7 @@ public class PropertiesHelper {
         }
     }
 
-    private static boolean isHerokuEnv() {
+    public static boolean isHerokuEnv() {
         return System.getenv().containsKey("JDBC_DATABASE_URL");
     }
 
