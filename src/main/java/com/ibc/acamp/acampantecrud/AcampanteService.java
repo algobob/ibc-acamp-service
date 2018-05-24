@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Singleton
@@ -20,7 +21,16 @@ public class AcampanteService implements IAcampanteService {
     }
 
     public boolean save(Acampante acampante) {
+
+        if (isInvalidAcampante(acampante))
+            return false;
+
         return repository.save(acampante);
+    }
+
+    private boolean isInvalidAcampante(Acampante acampante) {
+        return !Optional.ofNullable(acampante.getNome()).isPresent() ||
+                !Optional.ofNullable(acampante.getSexo()).isPresent();
     }
 
     public List<Acampante> fetch() {

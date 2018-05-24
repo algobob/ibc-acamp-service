@@ -11,6 +11,6 @@ public class PropertiesHelperTest {
     @Test
     public void shouldGetPropertiesFromTestEnv() throws IOException {
         PropertiesHelper.load("test");
-        assertThat(PropertiesHelper.getProps("db.jdbc.url"),is("jdbc:h2:mem:test.db;DB_CLOSE_DELAY=-1"));
+        assertThat(PropertiesHelper.getProps("env_name"),is("test"));
     }
 }

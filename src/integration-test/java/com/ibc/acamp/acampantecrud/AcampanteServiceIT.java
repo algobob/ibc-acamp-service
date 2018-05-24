@@ -41,6 +41,17 @@ public class AcampanteServiceIT {
         assertThat(acampanteService.save(acampante),is(true));
     }
 
+    @Test
+    public void shouldNotSaveIfAcamapanteWithoutName(){
+        Acampante acampante = Acampante.builder().idade(12).sexo("Masculino").build();
+        assertThat(acampanteService.save(acampante),is(false));
+    }
+
+    @Test
+    public void shouldNotSaveIfAcamapanteWithoutSexo(){
+        Acampante acampante = Acampante.builder().nome("saved-acampante").build();
+        assertThat(acampanteService.save(acampante),is(false));
+    }
     @After
     public void tearDown() throws Exception {
         helper.dropTables();
