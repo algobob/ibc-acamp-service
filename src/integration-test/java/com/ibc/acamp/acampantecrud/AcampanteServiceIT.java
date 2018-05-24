@@ -2,6 +2,7 @@ package com.ibc.acamp.acampantecrud;
 
 import com.google.inject.Guice;
 import com.ibc.acamp.support.AcampanteRepositoryHelper;
+import com.ibc.acamp.support.PropertiesHelper;
 import com.ibc.acamp.support.SimpleModule;
 import org.junit.After;
 import org.junit.Before;
@@ -20,17 +21,24 @@ public class AcampanteServiceIT {
 
     @Before
     public void setUp() throws Exception {
+        PropertiesHelper.load("test");
         Guice.createInjector(new SimpleModule()).injectMembers(this);
 
         helper.createTables();
-        helper.insertDumbData();
     }
 
     @Test
     public void shouldListAllAcampantesSuccessfully(){
+        helper.insertDumbData();
         List<Acampante> acampantes = acampanteService.fetch();
 
         assertThat(acampantes.size(), is(2));
+    }
+
+    @Test
+    public void shouldSaveAcamapante(){
+        Acampante acampante = Acampante.builder().idade(12).nome("saved-acampante").sexo("Masculino").build();
+        assertThat(acampanteService.save(acampante),is(true));
     }
 
     @After

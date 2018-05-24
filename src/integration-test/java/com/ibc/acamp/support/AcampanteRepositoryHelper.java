@@ -16,7 +16,7 @@ public class AcampanteRepositoryHelper {
     }
 
     public void createTables(){
-        String sql = "CREATE TABLE acampantes (" +
+        String sql = "CREATE TABLE if not exists acamp.acampantes (" +
                 "  id int NOT NULL AUTO_INCREMENT," +
                 "  nome varchar(255)," +
                 "  sexo varchar(15)," +
@@ -32,7 +32,7 @@ public class AcampanteRepositoryHelper {
 
     public void insertDumbData() {
         String sql =
-                "INSERT INTO acampantes(nome, sexo, idade) " +
+                "INSERT INTO acamp.acampantes(nome, sexo, idade) " +
                         "VALUES ('maria', 'feminino', 12)," +
                         "('joao', 'masculino', 13) ";
 
@@ -45,7 +45,7 @@ public class AcampanteRepositoryHelper {
     }
 
     public void dropTables(){
-        String sql = "drop table if exists acampantes;";
+        String sql = "drop table if exists acamp.acampantes;";
 
         try (Connection con = sql2o.open()) {
             con.createQuery(sql).executeUpdate();

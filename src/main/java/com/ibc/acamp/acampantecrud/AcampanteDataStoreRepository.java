@@ -27,8 +27,9 @@ public class AcampanteDataStoreRepository implements DataStoreRepository {
     @Override
     public boolean save(Acampante acampante) {
 
+        LOGGER.info("[Acampante Repository] saving acampante...acampante = {}",acampante);
         String sql =
-                "INSERT INTO acampantes(nome, sexo, idade) " +
+                "INSERT INTO acamp.acampantes(nome, sexo, idade) " +
                         "VALUES (:nome, :sexo, :idade)";
 
         try (Connection con = sql2o.open()) {
@@ -38,12 +39,13 @@ public class AcampanteDataStoreRepository implements DataStoreRepository {
                     .addParameter("idade", acampante.getIdade())
                     .executeUpdate();
 
+            LOGGER.info("[Acampante Repository] Acampante saved.");
+            return true;
+
         }catch (Exception ex){
-            ex.printStackTrace();
+            LOGGER.error("[Acamapante Respository] {}", ex.getMessage());
             return false;
         }
-
-        return true;
     }
 
     @Override
