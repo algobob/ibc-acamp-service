@@ -1,8 +1,13 @@
 package support;
 
+import com.ibc.acamp.acampantecrud.Acampante;
 import com.ibc.acamp.support.PropertiesHelper;
-import org.sql2o.Connection;
-import org.sql2o.Sql2o;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
+import java.sql.SQLException;
 
 public class AcampanteRepositoryHelper {
 
@@ -10,48 +15,28 @@ public class AcampanteRepositoryHelper {
     private static final String DB_USER = PropertiesHelper.getProps("db.jdbc.user");
     private static final String DB_PASSWORD = PropertiesHelper.getProps("db.jdbc.password");
 
-    private Sql2o sql2o;
+    private Dao<Acampante,String> acampanteDao;
 
-    public AcampanteRepositoryHelper(){
-        sql2o = new Sql2o(DB_CONNECTION,DB_USER, DB_PASSWORD);
+    public AcampanteRepositoryHelper() throws SQLException {
+        JdbcConnectionSource connectionSource = new JdbcConnectionSource(DB_CONNECTION, DB_USER, DB_PASSWORD);
+        acampanteDao = DaoManager.createDao(connectionSource, Acampante.class);
     }
 
-    public void createTables(){
-        String sql = "CREATE TABLE acampantes (" +
-                "  id int NOT NULL AUTO_INCREMENT," +
-                "  nome varchar(255)," +
-                "  sexo varchar(15)," +
-                "  idade int" +
-                ");";
+    public void createTables() throws SQLException {
 
-        try (Connection con = sql2o.open()) {
-            con.createQuery(sql).executeUpdate();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+        TableUtils.createTable(acampanteDao);
     }
 
-    public void insertDumbData() {
-        String sql =
-                "INSERT INTO acampantes(nome, sexo, idade) " +
-                        "VALUES ('maria', 'feminino', 12)," +
-                        "('joao', 'masculino', 13) ";
-
-        try (Connection con = sql2o.open()) {
-            con.createQuery(sql).executeUpdate();
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+    public void insertDumbData() throws SQLException {
+        acampanteDao.create(buildAcamapante("João",15, "Masculino"));
+        acampanteDao.create(buildAcamapante("Maria",17, "Feminino"));
     }
 
-    public void dropTables(){
-        String sql = "drop table if exists acampantes;";
+    private Acampante buildAcamapante(String nome, int idade, String sexo) {
+        return Acampante.builder().nome(nome).idade(idade).sexo(sexo).build();
+    }
 
-        try (Connection con = sql2o.open()) {
-            con.createQuery(sql).executeUpdate();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+    public void dropTables() throws SQLException {
+        TableUtils.dropTable(acampanteDao, true);
     }
 }

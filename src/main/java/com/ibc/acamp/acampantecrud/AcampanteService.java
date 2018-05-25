@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Singleton
@@ -20,31 +20,36 @@ public class AcampanteService implements IAcampanteService {
         this.repository = repository;
     }
 
-    public boolean save(Acampante acampante) {
+    public boolean save(Acampante acampante) throws AcampanteInvalidoException, SQLException {
 
-        if (isInvalidAcampante(acampante))
-            return false;
-
+        validateAcampante(acampante);
         return repository.save(acampante);
     }
 
-    private boolean isInvalidAcampante(Acampante acampante) {
-        return !Optional.ofNullable(acampante.getNome()).isPresent() ||
-                !Optional.ofNullable(acampante.getSexo()).isPresent();
-    }
-
-    public List<Acampante> fetch() {
+    public List<Acampante> fetch() throws SQLException {
         LOGGER.info("[Get all acampantes][service] Requesting all acampantes from data store...");
         List<Acampante> acampantes = repository.fetch();
         LOGGER.info("[Get all acampantes][service] Result = {}", namesFrom(acampantes));
         return acampantes;
     }
 
+    public boolean update(Acampante acampante) {
+        return repository.update(acampante);
+    }
+
     private List<String> namesFrom(List<Acampante> acampantes) {
         return acampantes.stream().map(Acampante::getNome).collect(Collectors.toList());
     }
 
-    public boolean update(Acampante acampante) {
-        return repository.update(acampante);
+    private boolean isNullOrEmptyField(String value) {
+        return value == null || value.isEmpty();
+    }
+
+    private void validateAcampante(Acampante acampante) throws AcampanteInvalidoException {
+        if (isNullOrEmptyField(acampante.getNome()))
+            throw new AcampanteInvalidoException("Nome do acampante é obrigatório.");
+
+        if (isNullOrEmptyField(acampante.getSexo()))
+            throw new AcampanteInvalidoException("Sexo do acampante é obrigatório.");
     }
 }

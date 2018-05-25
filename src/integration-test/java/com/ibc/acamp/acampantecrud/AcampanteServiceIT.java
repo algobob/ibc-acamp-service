@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.inject.Inject;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,7 +29,7 @@ public class AcampanteServiceIT {
     }
 
     @Test
-    public void shouldListAllAcampantesSuccessfully(){
+    public void shouldListAllAcampantesSuccessfully() throws SQLException {
         helper.insertDumbData();
         List<Acampante> acampantes = acampanteService.fetch();
 
@@ -36,21 +37,21 @@ public class AcampanteServiceIT {
     }
 
     @Test
-    public void shouldSaveAcamapante(){
+    public void shouldSaveAcamapante() throws AcampanteInvalidoException, SQLException {
         Acampante acampante = Acampante.builder().idade(12).nome("saved-acampante").sexo("Masculino").build();
         assertThat(acampanteService.save(acampante),is(true));
     }
 
-    @Test
-    public void shouldNotSaveIfAcamapanteWithoutName(){
+    @Test( expected = AcampanteInvalidoException.class)
+    public void shouldThrowExceptionIfAcamapanteWithoutName() throws AcampanteInvalidoException, SQLException {
         Acampante acampante = Acampante.builder().idade(12).sexo("Masculino").build();
-        assertThat(acampanteService.save(acampante),is(false));
+        acampanteService.save(acampante);
     }
 
-    @Test
-    public void shouldNotSaveIfAcamapanteWithoutSexo(){
+    @Test( expected = AcampanteInvalidoException.class)
+    public void shouldThrowExceptionIfAcamapanteWithoutSexo() throws AcampanteInvalidoException, SQLException {
         Acampante acampante = Acampante.builder().nome("saved-acampante").build();
-        assertThat(acampanteService.save(acampante),is(false));
+        acampanteService.save(acampante);
     }
     @After
     public void tearDown() throws Exception {
