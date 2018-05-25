@@ -1,14 +1,27 @@
 package com.ibc.acamp.support;
 
-import com.google.gson.JsonElement;
+import com.google.gson.Gson;
 
 public class StandardResponse {
     private StatusResponse status;
     private String message;
-    private JsonElement data;
+    private String data;
 
-    public StandardResponse(StatusResponse status, JsonElement data){
+    public StandardResponse(StatusResponse status, Object data){
+        this(status);
+        this.data = buildJson(data);
+    }
+
+    private String buildJson(Object data) {
+        return new Gson().toJson(data);
+    }
+
+    public StandardResponse(StatusResponse status){
         this.status = status;
-        this.data = data;
+    }
+
+    public StandardResponse(StatusResponse status, String message){
+        this(status);
+        this.message = message;
     }
 }

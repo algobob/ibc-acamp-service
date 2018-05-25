@@ -6,7 +6,7 @@ public enum StatusResponse {
     FAIL("Fail"),
     ERROR("Error");
 
-    StatusResponse(String status){
+     StatusResponse(String status){
         this.status = status;
     }
 
