@@ -9,8 +9,8 @@ import static org.hamcrest.core.Is.is;
 public class PropertiesHelperTest {
 
     @Test
-    public void shouldGetPropertiesFromTestEnv() throws IOException {
-        PropertiesHelper.load("test");
-        assertThat(PropertiesHelper.getProps("env_name"),is("test"));
+    public void shouldGetPropertiesFromLocalEnv() throws IOException {
+        PropertiesHelper.load("local");
+        assertThat(PropertiesHelper.getProps("env_name"),is("local"));
     }
 }

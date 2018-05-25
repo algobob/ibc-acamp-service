@@ -20,8 +20,8 @@ public class Main {
     @Inject IAcampanteService acampanteService;
 
     public static void main(String[] args) throws IOException {
-        port(getHerokuAssignedPort());
         PropertiesHelper.load(getEnv());
+        port(getHerokuAssignedPort());
         new Main().init();
     }
 
