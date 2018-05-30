@@ -3,6 +3,7 @@ package com.ibc.acamp.acampantecrud;
 import com.google.gson.Gson;
 import com.google.inject.Guice;
 import com.ibc.acamp.Main;
+import com.ibc.acamp.support.AcampanteRepositoryHelper;
 import com.ibc.acamp.support.PropertiesHelper;
 import com.ibc.acamp.support.SimpleModule;
 import com.ibc.acamp.support.StandardResponse;
@@ -13,7 +14,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import spark.Spark;
-import support.AcampanteRepositoryHelper;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -34,7 +34,6 @@ public class AcampanteRouterApiTest {
         RestAssured.baseURI="http://localhost:4567";
         Main.main(null);
         Guice.createInjector(new SimpleModule()).injectMembers(this);
-        helper.createTables();
         helper.insertDumbData();
     }
 
@@ -64,6 +63,6 @@ public class AcampanteRouterApiTest {
     @After
     public void tearDown() throws SQLException {
         Spark.stop();
-        helper.dropTables();
+        helper.cleanAcampanteTable();
     }
 }

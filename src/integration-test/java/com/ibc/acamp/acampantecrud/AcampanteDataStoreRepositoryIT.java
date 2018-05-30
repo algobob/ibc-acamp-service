@@ -1,11 +1,13 @@
 package com.ibc.acamp.acampantecrud;
 
 import com.google.inject.Guice;
+import com.ibc.acamp.DBMigrations;
 import com.ibc.acamp.support.AcampanteRepositoryHelper;
 import com.ibc.acamp.support.PropertiesHelper;
 import com.ibc.acamp.support.SimpleModule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -22,11 +24,17 @@ public class AcampanteDataStoreRepositoryIT {
     @Inject
     private AcampanteRepositoryHelper helper;
 
+    @BeforeClass
+    public static void runMigrations(){
+        DBMigrations.initForTest();
+    }
+
     @Before
     public void setUp() throws Exception {
         PropertiesHelper.load("test");
         Guice.createInjector(new SimpleModule()).injectMembers(this);
-        helper.createTables();
+//        helper.createAcampTestSchema();
+//        helper.createAcampanteTable();
         helper.insertDumbData();
     }
 
@@ -44,7 +52,7 @@ public class AcampanteDataStoreRepositoryIT {
     @Test
     public void fetch() throws Exception {
 
-        List result = repository.fetch();
+         List result = repository.fetch();
         assertThat(result.size()>0,is(true));
 
     }
@@ -65,7 +73,7 @@ public class AcampanteDataStoreRepositoryIT {
 
     @After
     public void tearDown() throws Exception {
-        helper.dropTables();
+        helper.cleanAcampanteTable();
     }
 
     private Acampante buildAcampante(String nome, String sexo, int idade) {

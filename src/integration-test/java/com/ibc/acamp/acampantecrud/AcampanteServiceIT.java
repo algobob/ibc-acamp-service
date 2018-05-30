@@ -24,8 +24,6 @@ public class AcampanteServiceIT {
     public void setUp() throws Exception {
         PropertiesHelper.load("test");
         Guice.createInjector(new SimpleModule()).injectMembers(this);
-
-        helper.createTables();
     }
 
     @Test
@@ -55,7 +53,7 @@ public class AcampanteServiceIT {
     }
     @After
     public void tearDown() throws Exception {
-        helper.dropTables();
+        helper.cleanAcampanteTable();
     }
 
 }

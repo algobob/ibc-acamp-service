@@ -9,13 +9,28 @@ import java.io.IOException;
 
 public class DBMigrations {
 
+    public static final String DB_MIGRATION_DIR_RESOURCES = "filesystem:src/main/resources/db/migrations";
+    public static final String DB_DEFAULT_SCHEMA = "acamp";
     private static Logger LOGGER = LoggerFactory.getLogger(DBMigrations.class);
 
     public static void main(String[] args) throws IOException {
         LOGGER.info("Running database migrations.");
+        runFlywayMigrations(DB_MIGRATION_DIR_RESOURCES, DB_DEFAULT_SCHEMA);
+        LOGGER.info("Finished database migrations.");
+    }
+
+    public static void initForTest() {
+        try {
+            runFlywayMigrations(DB_MIGRATION_DIR_RESOURCES, "acamp_test");
+        } catch( IOException ex) {
+            LOGGER.error("Error to run db migrations. ex: {}.", ex.getMessage());
+        }
+    }
+
+    private static void runFlywayMigrations(String location, String schema) throws IOException {
         Flyway flyway = new Flyway();
-        flyway.setLocations("filesystem:src/main/resources/db/migrations");
-        flyway.setSchemas("acamp");
+        flyway.setLocations(location);
+        flyway.setSchemas(schema);
 
         if (PropertiesHelper.isHerokuEnv()){
             LOGGER.info("Heroku env - Load database properties from system enviroment.");
@@ -35,7 +50,6 @@ public class DBMigrations {
         }
 
         flyway.migrate();
-        LOGGER.info("Finished database migrations.");
     }
 
     private static void setFlywayDataSource(Flyway flyway, String url, String username, String password) {

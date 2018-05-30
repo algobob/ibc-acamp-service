@@ -27,7 +27,13 @@ public class AcampanteRouter {
         get("/acampantes", (req,res) -> {
             LOGGER.info("[Get all acampantes][controller] Requesting all acampantes...");
             res.type("application/json");
-            return buildFailedResponseAsJson(acampanteService.fetch());
+
+            try {
+                return new JsonResponseBuilder(StatusResponse.SUCCESS, acampanteService.fetch()).build();
+            } catch (Exception exception) {
+                return new JsonResponseBuilder(StatusResponse.ERROR, exception.getMessage()).build();
+            }
+
         });
 
         post("/acampantes", (req,res) -> {
