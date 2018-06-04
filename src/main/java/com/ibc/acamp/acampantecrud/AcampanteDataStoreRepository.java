@@ -64,8 +64,7 @@ public class AcampanteDataStoreRepository implements DataStoreRepository {
     @Override
     public boolean update(Acampante acampante) {
 
-        String sql =
-                "update acampantes set nome = :nome, sexo = :sexo, idade = :idade where id = :id;";
+        String sql = String.format("update %s.acampantes set nome = :nome, sexo = :sexo, idade = :idade where id = :id;",DB_SCHEMA);
 
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)

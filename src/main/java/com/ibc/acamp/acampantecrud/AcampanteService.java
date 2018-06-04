@@ -22,7 +22,7 @@ public class AcampanteService implements IAcampanteService {
 
     public boolean save(Acampante acampante) throws AcampanteInvalidoException, SQLException {
 
-        validateAcampante(acampante);
+        new AcamapanteValidator(acampante).validate();
         return repository.save(acampante);
     }
 
@@ -33,7 +33,8 @@ public class AcampanteService implements IAcampanteService {
         return acampantes;
     }
 
-    public boolean update(Acampante acampante) {
+    public boolean update(Acampante acampante) throws AcampanteInvalidoException {
+        new AcamapanteValidator(acampante).validate();
         return repository.update(acampante);
     }
 
@@ -41,15 +42,4 @@ public class AcampanteService implements IAcampanteService {
         return acampantes.stream().map(Acampante::getNome).collect(Collectors.toList());
     }
 
-    private boolean isNullOrEmptyField(String value) {
-        return value == null || value.isEmpty();
-    }
-
-    private void validateAcampante(Acampante acampante) throws AcampanteInvalidoException {
-        if (isNullOrEmptyField(acampante.getNome()))
-            throw new AcampanteInvalidoException("Nome do acampante é obrigatório.");
-
-        if (isNullOrEmptyField(acampante.getSexo()))
-            throw new AcampanteInvalidoException("Sexo do acampante é obrigatório.");
-    }
 }

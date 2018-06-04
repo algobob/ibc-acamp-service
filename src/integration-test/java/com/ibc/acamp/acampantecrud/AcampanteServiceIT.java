@@ -1,11 +1,13 @@
 package com.ibc.acamp.acampantecrud;
 
 import com.google.inject.Guice;
+import com.ibc.acamp.DBMigrations;
 import com.ibc.acamp.support.AcampanteRepositoryHelper;
 import com.ibc.acamp.support.PropertiesHelper;
 import com.ibc.acamp.support.SimpleModule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -20,9 +22,14 @@ public class AcampanteServiceIT {
     @Inject private AcampanteService acampanteService;
     @Inject private AcampanteRepositoryHelper helper;
 
+    @BeforeClass
+    public static void runMigrations(){
+        DBMigrations.initForTest();
+    }
+
     @Before
     public void setUp() throws Exception {
-        PropertiesHelper.load("test");
+        PropertiesHelper.load("local_test");
         Guice.createInjector(new SimpleModule()).injectMembers(this);
     }
 
@@ -51,6 +58,37 @@ public class AcampanteServiceIT {
         Acampante acampante = Acampante.builder().nome("saved-acampante").build();
         acampanteService.save(acampante);
     }
+
+    @Test
+    public void shouldUpdateAcamapanteSuccessfully() throws SQLException, AcampanteInvalidoException {
+        helper.insertDumbData();
+
+        Acampante acampante = acampanteService.fetch().get(0);
+        Acampante acampanteUpdated = Acampante.builder()
+                .nome("alterado!")
+                .sexo(acampante.getSexo())
+                .idade(acampante.getIdade())
+                .id(acampante.getId())
+                .build();
+
+        assertThat(acampanteService.update(acampanteUpdated), is(true));
+
+    }
+
+    @Test( expected = AcampanteInvalidoException.class)
+    public void shouldThrowExceptionWhenUpdateAcamapante() throws SQLException, AcampanteInvalidoException {
+        helper.insertDumbData();
+
+        Acampante acampante = acampanteService.fetch().get(0);
+        Acampante acampanteUpdated = Acampante.builder()
+                .sexo(acampante.getSexo())
+                .idade(acampante.getIdade())
+                .id(acampante.getId())
+                .build();
+
+        acampanteService.update(acampanteUpdated);
+    }
+
     @After
     public void tearDown() throws Exception {
         helper.cleanAcampanteTable();

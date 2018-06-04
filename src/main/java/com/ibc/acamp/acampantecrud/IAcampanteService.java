@@ -7,6 +7,6 @@ public interface IAcampanteService {
 
     boolean save(Acampante acampante) throws AcampanteInvalidoException, SQLException;
     List<Acampante> fetch() throws SQLException;
-    boolean update(Acampante acampante);
+    boolean update(Acampante acampante) throws AcampanteInvalidoException;
 
 }
