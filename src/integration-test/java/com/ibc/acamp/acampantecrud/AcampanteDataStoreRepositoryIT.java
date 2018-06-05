@@ -31,17 +31,15 @@ public class AcampanteDataStoreRepositoryIT {
 
     @Before
     public void setUp() throws Exception {
-        PropertiesHelper.load("test");
+        PropertiesHelper.load("local_test");
         Guice.createInjector(new SimpleModule()).injectMembers(this);
-//        helper.createAcampTestSchema();
-//        helper.createAcampanteTable();
         helper.insertDumbData();
     }
 
     @Test
     public void save() throws Exception {
 
-        Acampante acampante = buildAcampante("teste","masc",13);
+        Acampante acampante = buildAcampante(null, "teste","masc",13);
 
         boolean result = repository.save(acampante);
 
@@ -57,27 +55,23 @@ public class AcampanteDataStoreRepositoryIT {
 
     }
 
-//    @Test
-//    public void update() throws Exception {
-//
-//        Acampante returned = repository.fetch().get(0);
-//        Acampante expected = buildAcampante("maria","fem",20);
-//
-//         boolean result = repository.update(expected);
-//
-//         assertThat(result,is(true));
-//         returned = repository.fetch().get(0);
-//
-//         assertThat(returned,is(expected));
-//    }
+    @Test
+    public void update() throws Exception {
+
+        Acampante returned = repository.fetch().get(0);
+        Acampante expected = buildAcampante(returned.getId(), "updated", returned.getSexo(), returned.getIdade());
+
+         assertThat(repository.update(expected),is(true));
+    }
 
     @After
     public void tearDown() throws Exception {
         helper.cleanAcampanteTable();
     }
 
-    private Acampante buildAcampante(String nome, String sexo, int idade) {
+    private Acampante buildAcampante(Integer id, String nome, String sexo, int idade) {
         return Acampante.builder()
+                .id(id)
                 .nome(nome)
                 .sexo(sexo)
                 .idade(idade)

@@ -76,7 +76,7 @@ public class AcampanteServiceIT {
     }
 
     @Test( expected = AcampanteInvalidoException.class)
-    public void shouldThrowExceptionWhenUpdateAcamapante() throws SQLException, AcampanteInvalidoException {
+    public void shouldThrowExceptionWhenTryUpdateInvalidAcampante() throws SQLException, AcampanteInvalidoException {
         helper.insertDumbData();
 
         Acampante acampante = acampanteService.fetch().get(0);
