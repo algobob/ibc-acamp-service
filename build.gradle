@@ -26,6 +26,7 @@ flyway {
     user = 'postgres'
     password = 'mysecretpassword'
     locations = ['filesystem:src/main/resources/db/migrations']
+    locations = ['filesystem:src/main/resources/db/migrations']
     schemas = ['acamp']
 }
 
@@ -44,6 +45,20 @@ artifacts {
 
 //required for heroku deploy
 task stage(dependsOn: ['clean','fatJar','installDist'])
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+task apiTest(type: Test) {
+    testClassesDirs = sourceSets.apiTest.output.classesDirs
+    classpath = sourceSets.apiTest.runtimeClasspath
+}
+
+task testall(type: Test) {
+    dependsOn test, integrationTest, apiTest
+}
 
 configurations {
     integrationTestCompile.extendsFrom testCompile
