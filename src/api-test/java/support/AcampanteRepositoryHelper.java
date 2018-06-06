@@ -1,7 +1,10 @@
 package com.ibc.acamp.support;
 
+import com.ibc.acamp.acampantecrud.Acampante;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+
+import java.util.List;
 
 public class AcampanteRepositoryHelper {
 
@@ -16,13 +19,15 @@ public class AcampanteRepositoryHelper {
         sql2o = new Sql2o(DB_CONNECTION,DB_USER, DB_PASSWORD);
     }
 
-    public void insertDumbData() {
-        String sql = String.format("INSERT INTO %s.acampantes(nome, sexo, idade) " +
-                "VALUES ('maria', 'feminino', 12)," +
-                "('joao', 'masculino', 13) ", DB_SCHEMA);
+    public void insertDumbAcamapanteData(String nome, String sexo, int idade) {
 
         try (Connection con = sql2o.open()) {
-            con.createQuery(sql).executeUpdate();
+            String sql = String.format("INSERT INTO %s.acampantes(nome, sexo, idade) values (:nome, :sexo, :idade);", DB_SCHEMA);
+            con.createQuery(sql)
+                    .addParameter("nome", nome)
+                    .addParameter("sexo", sexo)
+                    .addParameter("idade", idade)
+                    .executeUpdate();
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -38,5 +43,19 @@ public class AcampanteRepositoryHelper {
         }catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public List<Acampante> fetch(){
+        String sql = String.format("select * from %s.acampantes;",DB_SCHEMA);
+
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Acampante.class);
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -12,9 +12,6 @@ public class StandardResponse {
         this.data = buildJson(data);
     }
 
-    private String buildJson(Object data) {
-        return new Gson().toJson(data);
-    }
 
     public StandardResponse(StatusResponse status){
         this.status = status;
@@ -23,5 +20,9 @@ public class StandardResponse {
     public StandardResponse(StatusResponse status, String message){
         this(status);
         this.message = message;
+    }
+
+    private String buildJson(Object data) {
+        return new Gson().toJson(data);
     }
 }

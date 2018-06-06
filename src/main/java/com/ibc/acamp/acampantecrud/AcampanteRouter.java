@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import static java.util.Collections.emptyList;
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 public class AcampanteRouter {
 
@@ -44,6 +45,22 @@ public class AcampanteRouter {
 
             try {
                 acampanteService.save(acampante);
+                return new JsonResponseBuilder(StatusResponse.SUCCESS, emptyList()).build();
+            } catch (AcampanteInvalidoException acamapanteEx) {
+                return new JsonResponseBuilder(StatusResponse.FAIL, acamapanteEx.getMessage()).build();
+            } catch (Exception exception) {
+                return new JsonResponseBuilder(StatusResponse.ERROR, exception.getMessage()).build();
+            }
+        });
+
+        put("/acampantes/:id", (req,res) -> {
+            LOGGER.info("[Add acampante][controller] Requesting creation of acampante...");
+            res.type("application/json");
+
+            Acampante acampante = new Gson().fromJson(req.body(), Acampante.class);
+
+            try {
+                acampanteService.update(acampante);
                 return new JsonResponseBuilder(StatusResponse.SUCCESS, emptyList()).build();
             } catch (AcampanteInvalidoException acamapanteEx) {
                 return new JsonResponseBuilder(StatusResponse.FAIL, acamapanteEx.getMessage()).build();

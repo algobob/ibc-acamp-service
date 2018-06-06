@@ -34,7 +34,6 @@ public class AcampanteRouterApiTest {
         RestAssured.baseURI="http://localhost:4567";
         Main.main(null);
         Guice.createInjector(new SimpleModule()).injectMembers(this);
-        helper.insertDumbData();
     }
 
     @Test
@@ -55,6 +54,41 @@ public class AcampanteRouterApiTest {
     public void shouldReturnFailCodeWhenSaveAcampantes(){
         String acamapanteJson = new Gson().toJson(Acampante.builder().idade(12).sexo("masc").build());
         Response response = given().contentType("application/json").body(acamapanteJson).when().post("/acampantes");
+        String expectedJsonResponse = new Gson().toJson(new StandardResponse(StatusResponse.FAIL, "Nome do acampante é obrigatório."));
+        assertThat(response.body().print(), is(expectedJsonResponse));
+        assertThat(response.statusCode(), is(200));
+    }
+
+    @Test
+    public void shouldReturnSuccessResponseWhenUpdateAcampantes(){
+
+        helper.insertDumbAcamapanteData("mario", "masc", 18);
+        Acampante existentAcampante = helper.fetch().get(0);
+
+        String acamapanteJson = new Gson().toJson(Acampante.builder()
+                .id(existentAcampante.getId())
+                .idade(12)
+                .nome("mario-alterado")
+                .sexo("masc").build());
+
+        Response response = given().contentType("application/json").body(acamapanteJson).when().put("/acampantes/:id");
+        String expectedJsonResponse = new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, emptyList()));
+        assertThat(response.body().print(), is(expectedJsonResponse));
+        assertThat(response.statusCode(), is(200));
+    }
+
+    @Test
+    public void shouldReturnFailResponseWhenUpdateAcampantes(){
+
+        helper.insertDumbAcamapanteData("mario", "masc", 18);
+        Acampante existentAcampante = helper.fetch().get(0);
+
+        String acamapanteWithoutNameJson = new Gson().toJson(Acampante.builder()
+                .id(existentAcampante.getId())
+                .idade(12)
+                .sexo("masc").build());
+
+        Response response = given().contentType("application/json").body(acamapanteWithoutNameJson).when().put("/acampantes/:id");
         String expectedJsonResponse = new Gson().toJson(new StandardResponse(StatusResponse.FAIL, "Nome do acampante é obrigatório."));
         assertThat(response.body().print(), is(expectedJsonResponse));
         assertThat(response.statusCode(), is(200));
