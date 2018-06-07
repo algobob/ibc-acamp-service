@@ -24,7 +24,11 @@ public class AcampanteServiceIT {
 
     @BeforeClass
     public static void runMigrations(){
-        DBMigrations.initForTest();
+        try {
+            DBMigrations.initForTest();
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Before
