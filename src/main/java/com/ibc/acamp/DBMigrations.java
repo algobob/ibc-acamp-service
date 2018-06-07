@@ -40,7 +40,7 @@ public class DBMigrations {
                     System.getenv("JDBC_DATABASE_USERNAME"),
                     System.getenv("JDBC_DATABASE_PASSWORD"));
         }else {
-            PropertiesHelper.load("local");
+            PropertiesHelper.load("local_test");
             LOGGER.info("Local env - Load database properties from properties file.");
 
             setFlywayDataSource(flyway,
