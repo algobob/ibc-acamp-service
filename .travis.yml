@@ -1,6 +1,9 @@
 language: java
+sudo: required
+
 services:
-  - postgresql
+  - docker
+
 jdk:
   - oraclejdk8
 
@@ -13,9 +16,9 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-before_script:
-  - psql -c "CREATE DATABASE acamp_test;" -U postgres
-  - psql -c "CREATE USER acampante WITH PASSWORD 'acampante-mysecretpassword';" -U postgres
+before_install:
+  - docker pull postgres
+  - docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
 
 jobs:
   include:
