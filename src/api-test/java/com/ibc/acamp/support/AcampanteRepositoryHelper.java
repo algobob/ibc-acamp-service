@@ -19,15 +19,13 @@ public class AcampanteRepositoryHelper {
         sql2o = new Sql2o(DB_CONNECTION,DB_USER, DB_PASSWORD);
     }
 
-    public void insertDumbAcamapanteData(String nome, String sexo, int idade) {
+    public void insertDumbData() {
+        String sql = String.format("INSERT INTO %s.acampantes(nome, sexo, idade) " +
+                "VALUES ('maria', 'feminino', 12)," +
+                "('joao', 'masculino', 13) ", DB_SCHEMA);
 
         try (Connection con = sql2o.open()) {
-            String sql = String.format("INSERT INTO %s.acampantes(nome, sexo, idade) values (:nome, :sexo, :idade);", DB_SCHEMA);
-            con.createQuery(sql)
-                    .addParameter("nome", nome)
-                    .addParameter("sexo", sexo)
-                    .addParameter("idade", idade)
-                    .executeUpdate();
+            con.createQuery(sql).executeUpdate();
 
         }catch (Exception ex){
             ex.printStackTrace();

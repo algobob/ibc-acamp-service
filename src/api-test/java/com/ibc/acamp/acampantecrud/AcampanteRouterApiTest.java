@@ -30,7 +30,7 @@ public class AcampanteRouterApiTest {
 
     @Before
     public void setUp() throws IOException, SQLException {
-        PropertiesHelper.load("test");
+        PropertiesHelper.load("local_test");
         RestAssured.baseURI="http://localhost:4567";
         Main.main(null);
         Guice.createInjector(new SimpleModule()).injectMembers(this);
@@ -62,7 +62,7 @@ public class AcampanteRouterApiTest {
     @Test
     public void shouldReturnSuccessResponseWhenUpdateAcampantes(){
 
-        helper.insertDumbAcamapanteData("mario", "masc", 18);
+        helper.insertDumbData();
         Acampante existentAcampante = helper.fetch().get(0);
 
         String acamapanteJson = new Gson().toJson(Acampante.builder()
@@ -80,7 +80,7 @@ public class AcampanteRouterApiTest {
     @Test
     public void shouldReturnFailResponseWhenUpdateAcampantes(){
 
-        helper.insertDumbAcamapanteData("mario", "masc", 18);
+        helper.insertDumbData();
         Acampante existentAcampante = helper.fetch().get(0);
 
         String acamapanteWithoutNameJson = new Gson().toJson(Acampante.builder()

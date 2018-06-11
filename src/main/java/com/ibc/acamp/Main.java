@@ -42,7 +42,7 @@ public class Main {
     }
 
     private static String getEnv() {
-        return System.getenv("ENV") == null ? "local" : System.getenv("ENV");
+        return System.getenv("ENV") == null ? "local_test" : System.getenv("ENV");
     }
 
     private static int getHerokuAssignedPort() {
