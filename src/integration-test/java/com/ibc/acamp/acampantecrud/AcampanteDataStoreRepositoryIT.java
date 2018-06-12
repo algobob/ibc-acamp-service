@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -25,13 +26,13 @@ public class AcampanteDataStoreRepositoryIT {
     private AcampanteRepositoryHelper helper;
 
     @BeforeClass
-    public static void runMigrations(){
+    public static void runMigrations() throws IOException {
+        PropertiesHelper.load("local_test");
         DBMigrations.initFlywayForTest();
     }
 
     @Before
     public void setUp() throws Exception {
-        PropertiesHelper.load("local_test");
         Guice.createInjector(new SimpleModule()).injectMembers(this);
         helper.insertDumbData();
     }
