@@ -26,7 +26,7 @@ public class AcampanteDataStoreRepositoryIT {
 
     @BeforeClass
     public static void runMigrations(){
-        DBMigrations.initForTest();
+        DBMigrations.initFlywayForTest();
     }
 
     @Before

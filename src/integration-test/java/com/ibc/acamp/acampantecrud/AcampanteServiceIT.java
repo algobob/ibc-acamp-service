@@ -24,7 +24,7 @@ public class AcampanteServiceIT {
 
     @BeforeClass
     public static void runMigrations(){
-        DBMigrations.initForTest();
+        DBMigrations.initFlywayForTest();
     }
 
     @Before
