@@ -10,7 +10,7 @@ public class PropertiesHelperTest {
 
     @Test
     public void shouldGetPropertiesFromLocalEnv() throws IOException {
-        PropertiesHelper.load("local");
-        assertThat(PropertiesHelper.getProps("env_name"),is("local"));
+        PropertiesHelper.load("local_test");
+        assertThat(PropertiesHelper.getProps("env_name"),is("local_test"));
     }
 }
