@@ -38,18 +38,16 @@ public class PropertiesHelper {
     }
 
     public static String getJdbcUrl() {
-        return appProps.getProperty("db.jdbc.url");
+        return getProps("db.jdbc.url");
     }
 
     public static String getJdbcUsername() {
-        return appProps.getProperty("db.jdbc.user");
+        return getProps("db.jdbc.user");
     }
 
     public static String getJdbcPassword() {
-        return appProps.getProperty("db.jdbc.password");
+        return getProps("db.jdbc.password");
     }
 
-    public static String getJdbcSchema() {
-        return appProps.getProperty("db.jdbc.schema");
-    }
+    public static String getJdbcSchema() { return getProps("db.jdbc.schema"); }
 }

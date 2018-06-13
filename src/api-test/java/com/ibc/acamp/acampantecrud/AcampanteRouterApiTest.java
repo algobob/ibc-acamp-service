@@ -4,14 +4,15 @@ import com.google.gson.Gson;
 import com.google.inject.Guice;
 import com.ibc.acamp.Main;
 import com.ibc.acamp.support.AcampanteRepositoryHelper;
-import com.ibc.acamp.support.PropertiesHelper;
 import com.ibc.acamp.support.SimpleModule;
 import com.ibc.acamp.support.StandardResponse;
 import com.ibc.acamp.support.StatusResponse;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import spark.Spark;
 
@@ -28,11 +29,14 @@ public class AcampanteRouterApiTest {
 
     @Inject private AcampanteRepositoryHelper helper;
 
+    @BeforeClass
+    public static void init() throws IOException {
+        Main.main(null);
+    }
+
     @Before
     public void setUp() throws IOException, SQLException {
-        PropertiesHelper.load("local_test");
         RestAssured.baseURI="http://localhost:4567";
-        Main.main(null);
         Guice.createInjector(new SimpleModule()).injectMembers(this);
     }
 
@@ -96,7 +100,11 @@ public class AcampanteRouterApiTest {
 
     @After
     public void tearDown() throws SQLException {
-        Spark.stop();
         helper.cleanAcampanteTable();
+    }
+
+    @AfterClass
+    public static void stop(){
+        Spark.stop();
     }
 }

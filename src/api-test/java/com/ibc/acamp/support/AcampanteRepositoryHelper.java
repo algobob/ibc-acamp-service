@@ -50,15 +50,6 @@ public class AcampanteRepositoryHelper {
 
     public List<Acampante> fetch(){
         String sql = String.format("select * from %s.acampantes;",DB_SCHEMA);
-
-        try (Connection con = sql2o.open()) {
-            return con.createQuery(sql)
-                    .executeAndFetch(Acampante.class);
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-        return null;
+        return sql2o.open().createQuery(sql).executeAndFetch(Acampante.class);
     }
 }
