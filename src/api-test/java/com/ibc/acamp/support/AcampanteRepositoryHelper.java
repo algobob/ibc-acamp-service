@@ -6,12 +6,17 @@ import org.sql2o.Sql2o;
 
 import java.util.List;
 
+import static com.ibc.acamp.support.PropertiesHelper.getJdbcPassword;
+import static com.ibc.acamp.support.PropertiesHelper.getJdbcSchema;
+import static com.ibc.acamp.support.PropertiesHelper.getJdbcUrl;
+import static com.ibc.acamp.support.PropertiesHelper.getJdbcUsername;
+
 public class AcampanteRepositoryHelper {
 
-    private static final String DB_CONNECTION = PropertiesHelper.getProps("db.jdbc.url");
-    private static final String DB_USER = PropertiesHelper.getProps("db.jdbc.user");
-    private static final String DB_PASSWORD = PropertiesHelper.getProps("db.jdbc.password");
-    private static final String DB_SCHEMA = PropertiesHelper.getProps("db.jdbc.schema");
+    private static final String DB_CONNECTION = getJdbcUrl();
+    private static final String DB_USER = getJdbcUsername();
+    private static final String DB_PASSWORD = getJdbcPassword();
+    private static final String DB_SCHEMA = getJdbcSchema();
 
     private Sql2o sql2o;
 

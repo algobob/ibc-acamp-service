@@ -18,7 +18,7 @@ public class PropertiesHelper {
     }
 
     private static void loadDatabasePropertiesFromEnvVarsIfRequired(String env) {
-        if (isTravisEnv() && !env.contains("test")) {
+        if (!env.contains("test") && isTravisEnv()) {
             appProps.put("db.jdbc.url", System.getenv("JDBC_DATABASE_URL"));
             appProps.put("db.jdbc.user", System.getenv("JDBC_DATABASE_USERNAME"));
             appProps.put("db.jdbc.password", System.getenv("JDBC_DATABASE_PASSWORD"));

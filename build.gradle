@@ -49,15 +49,18 @@ task stage(dependsOn: ['clean','fatJar','installDist'])
 task integrationTest(type: Test) {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
 }
 
 task apiTest(type: Test) {
     testClassesDirs = sourceSets.apiTest.output.classesDirs
     classpath = sourceSets.apiTest.runtimeClasspath
+    outputs.upToDateWhen { false }
 }
 
 task testall(type: Test) {
     dependsOn test, integrationTest, apiTest
+    outputs.upToDateWhen { false }
 }
 
 configurations {
