@@ -23,11 +23,11 @@ before_install:
 jobs:
   include:
     - stage: Tests
-      script: gradle test
+      script: gradle test -i
     - stage: Tests
-      script: gradle integrationtest
+      script: gradle integrationtest -i
     - stage: Tests
-      script: gradle apitest
+      script: gradle apitest -i
     - stage: deploy to staging
       script: skip
       deploy: &heroku
