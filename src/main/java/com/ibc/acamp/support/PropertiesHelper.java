@@ -14,11 +14,11 @@ public class PropertiesHelper {
     public static void load(String env) throws IOException {
         String propertiesFilePath = String.format("/%s.properties",env);
         appProps.load(getPropertiesFileAsStream(propertiesFilePath));
-        loadDatabasePropertiesFromEnvVarsIfRequired();
+        loadDatabasePropertiesFromEnvVarsIfRequired(env);
     }
 
-    private static void loadDatabasePropertiesFromEnvVarsIfRequired() {
-        if (isTravisEnv()) {
+    private static void loadDatabasePropertiesFromEnvVarsIfRequired(String env) {
+        if (isTravisEnv() && !env.contains("test")) {
             appProps.put("db.jdbc.url", System.getenv("JDBC_DATABASE_URL"));
             appProps.put("db.jdbc.user", System.getenv("JDBC_DATABASE_USERNAME"));
             appProps.put("db.jdbc.password", System.getenv("JDBC_DATABASE_PASSWORD"));
