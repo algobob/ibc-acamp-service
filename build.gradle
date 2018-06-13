@@ -22,12 +22,12 @@ repositories {
 }
 
 flyway {
-    url = 'jdbc:postgresql://localhost:5432/'
+    url = 'jdbc:postgresql://localhost:5433/'
     user = 'postgres'
     password = 'mysecretpassword'
     locations = ['filesystem:src/main/resources/db/migrations']
     locations = ['filesystem:src/main/resources/db/migrations']
-    schemas = ['acamp']
+    schemas = ['acamp','acamp_test']
 }
 
 task fatJar(type: Jar) {

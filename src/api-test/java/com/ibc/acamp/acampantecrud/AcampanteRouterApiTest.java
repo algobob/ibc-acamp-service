@@ -2,6 +2,7 @@ package com.ibc.acamp.acampantecrud;
 
 import com.google.gson.Gson;
 import com.google.inject.Guice;
+import com.ibc.acamp.DBMigrations;
 import com.ibc.acamp.Main;
 import com.ibc.acamp.support.AcampanteRepositoryHelper;
 import com.ibc.acamp.support.SimpleModule;
@@ -32,6 +33,7 @@ public class AcampanteRouterApiTest {
     @BeforeClass
     public static void init() throws IOException {
         Main.main(null);
+        DBMigrations.initFlywayForTest();
     }
 
     @Before
