@@ -22,11 +22,6 @@ public class JsonResponseBuilder {
         this.data = data;
     }
 
-    public JsonResponseBuilder(StatusResponse status, String message, Object data) {
-        this(status, message);
-        this.data = data;
-    }
-
     public String build(){
         switch (status) {
             case SUCCESS:
