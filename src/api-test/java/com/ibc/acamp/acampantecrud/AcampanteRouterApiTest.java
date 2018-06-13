@@ -44,7 +44,10 @@ public class AcampanteRouterApiTest {
 
     @Test
     public void shouldReturnSuccessCodeWhenFetchAcampantes(){
-        given().when().get("/acampantes").then().statusCode(200);
+        Response response = given().when().get("/acampantes");
+        String expectedJsonResponse = new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, emptyList()));
+        assertThat(response.body().print(), is(expectedJsonResponse));
+        assertThat(response.statusCode(), is(200));
     }
 
     @Test

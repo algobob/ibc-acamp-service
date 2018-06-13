@@ -8,7 +8,7 @@ public class JsonResponseBuilder {
     private StatusResponse status;
     private Object data;
 
-    public JsonResponseBuilder(StatusResponse status){
+    private JsonResponseBuilder(StatusResponse status){
         this.status = status;
     }
 
