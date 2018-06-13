@@ -1,11 +1,12 @@
 package com.ibc.acamp.support;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 
 public class StandardResponse {
     private StatusResponse status;
     private String message;
-    private String data;
+    private JsonElement data;
 
     public StandardResponse(StatusResponse status, Object data){
         this(status);
@@ -22,7 +23,7 @@ public class StandardResponse {
         this.message = message;
     }
 
-    private String buildJson(Object data) {
-        return new Gson().toJson(data);
+    private JsonElement buildJson(Object data) {
+        return new Gson().toJsonTree(data);
     }
 }
