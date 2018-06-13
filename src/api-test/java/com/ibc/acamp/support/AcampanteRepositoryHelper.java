@@ -13,21 +13,25 @@ import static com.ibc.acamp.support.PropertiesHelper.getJdbcUsername;
 
 public class AcampanteRepositoryHelper {
 
-    private static final String DB_CONNECTION = getJdbcUrl();
-    private static final String DB_USER = getJdbcUsername();
-    private static final String DB_PASSWORD = getJdbcPassword();
-    private static final String DB_SCHEMA = getJdbcSchema();
+    private String dbConnection;
+    private String dbUser;
+    private String dbPassword;
+    private String dbSchema;
 
     private Sql2o sql2o;
 
     public AcampanteRepositoryHelper(){
-        sql2o = new Sql2o(DB_CONNECTION,DB_USER, DB_PASSWORD);
+        dbConnection = getJdbcUrl();
+        dbUser = getJdbcUsername();
+        dbPassword = getJdbcPassword();
+        dbSchema = getJdbcSchema();
+        sql2o = new Sql2o(dbConnection, dbUser, dbPassword);
     }
 
     public void insertDumbData() {
         String sql = String.format("INSERT INTO %s.acampantes(nome, sexo, idade) " +
                 "VALUES ('maria', 'feminino', 12)," +
-                "('joao', 'masculino', 13) ", DB_SCHEMA);
+                "('joao', 'masculino', 13) ", dbSchema);
 
         try (Connection con = sql2o.open()) {
             con.createQuery(sql).executeUpdate();
@@ -38,7 +42,7 @@ public class AcampanteRepositoryHelper {
     }
 
     public void cleanAcampanteTable() {
-        String sql = String.format("truncate %s.acampantes;",DB_SCHEMA);
+        String sql = String.format("truncate %s.acampantes;", dbSchema);
 
         try (Connection con = sql2o.open()) {
             con.createQuery(sql).executeUpdate();
@@ -49,7 +53,7 @@ public class AcampanteRepositoryHelper {
     }
 
     public List<Acampante> fetch(){
-        String sql = String.format("select * from %s.acampantes;",DB_SCHEMA);
+        String sql = String.format("select * from %s.acampantes;", dbSchema);
         return sql2o.open().createQuery(sql).executeAndFetch(Acampante.class);
     }
 }
