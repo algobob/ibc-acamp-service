@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import java.io.IOException;
 
+import static com.ibc.acamp.support.PropertiesHelper.isHerokuEnv;
 import static spark.Spark.get;
 import static spark.Spark.port;
 
@@ -42,7 +43,7 @@ public class Main {
     }
 
     private static String getEnv() {
-        return System.getenv("ENV") == null ? "local_test" : System.getenv("ENV");
+        return isHerokuEnv() ?  "local" : "local_test";
     }
 
     private static int getHerokuAssignedPort() {
