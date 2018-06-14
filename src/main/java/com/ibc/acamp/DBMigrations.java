@@ -1,5 +1,6 @@
 package com.ibc.acamp;
 
+import com.ibc.acamp.support.PropertiesHelper;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,18 +8,21 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import static com.ibc.acamp.support.PropertiesHelper.getJdbcPassword;
+import static com.ibc.acamp.support.PropertiesHelper.getJdbcSchema;
 import static com.ibc.acamp.support.PropertiesHelper.getJdbcUrl;
 import static com.ibc.acamp.support.PropertiesHelper.getJdbcUsername;
 
 public class DBMigrations {
 
     public static final String DB_MIGRATION_DIR_RESOURCES = "filesystem:src/main/resources/db/migrations";
-    public static final String DB_DEFAULT_SCHEMA = "acamp";
+    public static String dbDefaultSchema;
     private static Logger LOGGER = LoggerFactory.getLogger(DBMigrations.class);
 
     public static void main(String[] args) throws IOException {
         LOGGER.info("Running database migrations.");
-        buildFlyway(DB_DEFAULT_SCHEMA).migrate();
+        PropertiesHelper.load("local");
+        dbDefaultSchema = getJdbcSchema();
+        buildFlyway(dbDefaultSchema).migrate();
         LOGGER.info("Finished database migrations.");
     }
 
