@@ -18,15 +18,15 @@ public class PropertiesHelper {
     }
 
     private static void loadDatabasePropertiesFromEnvVarsIfRequired(String env) {
-        if (!env.contains("test") && isTravisEnv()) {
+        if (isHerokuEnv()) {
             appProps.put("db.jdbc.url", System.getenv("JDBC_DATABASE_URL"));
             appProps.put("db.jdbc.user", System.getenv("JDBC_DATABASE_USERNAME"));
             appProps.put("db.jdbc.password", System.getenv("JDBC_DATABASE_PASSWORD"));
         }
     }
 
-    public static boolean isTravisEnv() {
-        return System.getenv().containsKey("TRAVIS");
+    public static boolean isHerokuEnv() {
+        return System.getenv().containsKey("DATABASE_URL");
     }
 
     private static InputStream getPropertiesFileAsStream(String propertiesFilePath) throws FileNotFoundException {
