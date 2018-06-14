@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static java.util.Collections.emptyList;
+import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
@@ -16,10 +17,10 @@ import static spark.Spark.put;
 public class AcampanteRouter {
 
     private Logger LOGGER = LoggerFactory.getLogger("AcampanteRouter");
-    private IAcampanteService acampanteService;
+    private AcampanteService acampanteService;
 
     @Inject
-    public AcampanteRouter(IAcampanteService acampanteService){
+    public AcampanteRouter(AcampanteService acampanteService){
         this.acampanteService = acampanteService;
         registerRoutes();
     }
@@ -64,6 +65,20 @@ public class AcampanteRouter {
                 return new JsonResponseBuilder(StatusResponse.SUCCESS, emptyList()).build();
             } catch (AcampanteInvalidoException acamapanteEx) {
                 return new JsonResponseBuilder(StatusResponse.FAIL, acamapanteEx.getMessage()).build();
+            } catch (Exception exception) {
+                return new JsonResponseBuilder(StatusResponse.ERROR, exception.getMessage()).build();
+            }
+        });
+
+        delete("/acampantes/:id", (req,res) -> {
+            LOGGER.info("[Delete acampante][controller] Requesting deletion of acampante...");
+            res.type("application/json");
+
+            Integer idAcampante = Integer.valueOf(req.params("id"));
+
+            try {
+                acampanteService.delete(idAcampante);
+                return new JsonResponseBuilder(StatusResponse.SUCCESS, emptyList()).build();
             } catch (Exception exception) {
                 return new JsonResponseBuilder(StatusResponse.ERROR, exception.getMessage()).build();
             }

@@ -1,7 +1,10 @@
 package com.ibc.acamp.support;
 
+import com.ibc.acamp.acampantecrud.Acampante;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+
+import java.util.List;
 
 public class AcampanteRepositoryHelper {
 
@@ -39,4 +42,17 @@ public class AcampanteRepositoryHelper {
             ex.printStackTrace();
         }
     }
+
+    public List<Acampante> fetch() {
+        String sql = String.format("select * from %s.acampantes;", DB_SCHEMA);
+
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql).executeAndFetch(Acampante.class);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

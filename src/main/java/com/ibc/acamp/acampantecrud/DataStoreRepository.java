@@ -8,4 +8,6 @@ public interface DataStoreRepository {
     List<Acampante> fetch() throws SQLException;
 
     boolean update(Acampante acampante);
+
+    boolean delete(Integer id);
 }

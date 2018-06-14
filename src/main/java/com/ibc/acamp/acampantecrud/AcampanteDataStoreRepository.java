@@ -82,4 +82,23 @@ public class AcampanteDataStoreRepository implements DataStoreRepository {
 
         return false;
     }
+
+    @Override
+    public boolean delete(Integer id) {
+
+        String sql = String.format("delete from %s.acampantes where id = :id;",DB_SCHEMA);
+
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+
+            return true;
+
+        }catch (Exception ex){
+            LOGGER.error("[Acamapante Respository] {}", ex.getMessage());
+        }
+
+        return false;
+    }
 }

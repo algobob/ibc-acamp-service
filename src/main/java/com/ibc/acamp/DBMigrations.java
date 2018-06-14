@@ -14,8 +14,8 @@ import static com.ibc.acamp.support.PropertiesHelper.getJdbcUsername;
 
 public class DBMigrations {
 
-    public static final String DB_MIGRATION_DIR_RESOURCES = "filesystem:src/main/resources/db/migrations";
-    public static String dbDefaultSchema;
+    private static final String DB_MIGRATION_DIR_RESOURCES = "filesystem:src/main/resources/db/migrations";
+    private static String dbDefaultSchema;
     private static Logger LOGGER = LoggerFactory.getLogger(DBMigrations.class);
 
     public static void main(String[] args) throws IOException {
@@ -26,8 +26,9 @@ public class DBMigrations {
         LOGGER.info("Finished database migrations.");
     }
 
-    public static void initFlywayForTest() {
-            buildFlyway("acamp_test").migrate();
+    public static void initFlywayForTest() throws IOException {
+        PropertiesHelper.load("local_test");
+        buildFlyway(getJdbcSchema()).migrate();
     }
 
     private static Flyway buildFlyway(String schema) {

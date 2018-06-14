@@ -65,6 +65,15 @@ public class AcampanteDataStoreRepositoryIT {
          assertThat(repository.update(expected),is(true));
     }
 
+    @Test
+    public void delete() throws Exception {
+        Acampante returned = repository.fetch().get(0);
+
+        assertThat(repository.delete(returned.getId()), is(true));
+        assertThat(repository.fetch().contains(returned), is(false) );
+
+    }
+
     @After
     public void tearDown() throws Exception {
         helper.cleanAcampanteTable();

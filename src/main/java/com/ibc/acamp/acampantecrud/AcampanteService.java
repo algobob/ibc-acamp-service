@@ -38,6 +38,11 @@ public class AcampanteService implements IAcampanteService {
         return repository.update(acampante);
     }
 
+
+    public boolean delete(Integer idAcampante) {
+        return repository.delete(idAcampante);
+    }
+
     private List<String> namesFrom(List<Acampante> acampantes) {
         return acampantes.stream().map(Acampante::getNome).collect(Collectors.toList());
     }

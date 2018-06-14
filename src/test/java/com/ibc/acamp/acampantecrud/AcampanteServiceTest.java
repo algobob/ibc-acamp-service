@@ -77,6 +77,19 @@ public class AcampanteServiceTest {
 
     }
 
+    @Test
+    public void delete() throws Exception {
+
+        Acampante acampante = buildAcampante("acampante-1", 18, "masculino");
+        when(repository.delete(acampante.getId())).thenReturn(true);
+
+        boolean result = service.delete(acampante.getId());
+
+        assertThat(result,is(true));
+        verify(repository).delete(acampante.getId());
+
+    }
+
     private Acampante buildAcampante(String nome, int idade, String sexo) {
         return Acampante.builder()
                 .nome(nome)

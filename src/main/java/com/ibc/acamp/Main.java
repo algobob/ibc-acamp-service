@@ -2,7 +2,7 @@ package com.ibc.acamp;
 
 import com.google.inject.Guice;
 import com.ibc.acamp.acampantecrud.AcampanteRouter;
-import com.ibc.acamp.acampantecrud.IAcampanteService;
+import com.ibc.acamp.acampantecrud.AcampanteService;
 import com.ibc.acamp.support.PropertiesHelper;
 import com.ibc.acamp.support.SimpleModule;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ import static spark.Spark.port;
 public class Main {
 
     private Logger LOGGER = LoggerFactory.getLogger(Main.class);
-    @Inject IAcampanteService acampanteService;
+    @Inject AcampanteService acampanteService;
 
     public static void main(String[] args) throws IOException {
         PropertiesHelper.load(getEnv());

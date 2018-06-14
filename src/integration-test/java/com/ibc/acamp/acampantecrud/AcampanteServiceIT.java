@@ -61,6 +61,14 @@ public class AcampanteServiceIT {
     }
 
     @Test
+    public void shouldDeleteAcamapante() {
+        helper.insertDumbData();
+        List<Acampante> allAcampantes = helper.fetch();
+        assertThat(acampanteService.delete(allAcampantes.get(0).getId()), is(true));
+        assertThat(helper.fetch().contains(allAcampantes.get(0).getId()), is(false));
+    }
+
+        @Test
     public void shouldUpdateAcamapanteSuccessfully() throws SQLException, AcampanteInvalidoException {
         helper.insertDumbData();
 

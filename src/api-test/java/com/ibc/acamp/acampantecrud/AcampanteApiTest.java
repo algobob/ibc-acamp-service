@@ -20,13 +20,14 @@ import spark.Spark;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import static com.jayway.restassured.RestAssured.given;
 import static java.util.Collections.emptyList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public class AcampanteRouterApiTest {
+public class AcampanteApiTest {
 
     @Inject private AcampanteRepositoryHelper helper;
 
@@ -99,6 +100,16 @@ public class AcampanteRouterApiTest {
 
         Response response = given().contentType("application/json").body(acamapanteWithoutNameJson).when().put("/acampantes/:id");
         String expectedJsonResponse = new Gson().toJson(new StandardResponse(StatusResponse.FAIL, "Nome do acampante é obrigatório."));
+        assertThat(response.body().print(), is(expectedJsonResponse));
+        assertThat(response.statusCode(), is(200));
+    }
+
+    @Test
+    public void shouldReturnSuccessCodeWhenDeleteAcampantes(){
+        helper.insertDumbData();
+        List<Acampante> acampantes = helper.fetch();
+        Response response = given().contentType("application/json").when().delete("/acampantes/"+acampantes.get(0).getId());
+        String expectedJsonResponse = new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, emptyList()));
         assertThat(response.body().print(), is(expectedJsonResponse));
         assertThat(response.statusCode(), is(200));
     }
