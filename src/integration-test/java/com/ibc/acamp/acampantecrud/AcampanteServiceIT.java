@@ -38,6 +38,7 @@ public class AcampanteServiceIT {
     @Test
     public void shouldFetchAllAcampantesSuccessfully() throws SQLException {
         helper.insertDumbData("maria", "feminino", 12);
+        helper.insertDumbData("joao", "masculino", 13);
         List<Acampante> acampantes = acampanteService.fetch();
 
         assertThat(acampantes.size(), is(2));

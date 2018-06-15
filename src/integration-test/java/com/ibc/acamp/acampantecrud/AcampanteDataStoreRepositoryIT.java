@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -72,7 +73,7 @@ public class AcampanteDataStoreRepositoryIT {
         helper.insertDumbData("maria","feminino",12);
         Integer unknownAcampanteId = -1;
         Acampante acampante = repository.findById(unknownAcampanteId);
-        assertThat(acampante, is(notNullValue()));
+        assertThat(acampante, is(nullValue()));
 
     }
 
@@ -88,6 +89,8 @@ public class AcampanteDataStoreRepositoryIT {
 
     @Test
     public void delete() throws Exception {
+        helper.insertDumbData("maria", "feminino", 12);
+
         Acampante returned = repository.fetch().get(0);
 
         assertThat(repository.delete(returned.getId()), is(true));

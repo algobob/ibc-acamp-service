@@ -52,6 +52,18 @@ public class AcampanteApiTest {
     }
 
     @Test
+    public void shouldReturnSuccessCodeWhenFindAcampanteById(){
+        helper.insertDumbData();
+        List<Acampante> acampantes = helper.fetch();
+
+        Acampante acampante = acampantes.get(0);
+        Response response = given().when().get("/acampantes/"+ acampante.getId());
+        String expectedJsonResponse = new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, acampante));
+        assertThat(response.body().print(), is(expectedJsonResponse));
+        assertThat(response.statusCode(), is(200));
+    }
+
+    @Test
     public void shouldReturnSuccessCodeWhenSaveAcampantes(){
         String acamapanteJson = new Gson().toJson(Acampante.builder().idade(12).nome("saved-acamp").sexo("masc").build());
         Response response = given().contentType("application/json").body(acamapanteJson).when().post("/acampantes");

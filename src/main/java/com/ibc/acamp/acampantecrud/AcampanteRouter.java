@@ -3,7 +3,6 @@ package com.ibc.acamp.acampantecrud;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.ibc.acamp.support.JsonResponseBuilder;
-import com.ibc.acamp.support.StandardResponse;
 import com.ibc.acamp.support.StatusResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +31,20 @@ public class AcampanteRouter {
 
             try {
                 return new JsonResponseBuilder(StatusResponse.SUCCESS, acampanteService.fetch()).build();
+            } catch (Exception exception) {
+                return new JsonResponseBuilder(StatusResponse.ERROR, exception.getMessage()).build();
+            }
+
+        });
+
+        get("/acampantes/:id", (req,res) -> {
+            LOGGER.info("[Get all acampantes][controller] Requesting all acampantes...");
+            res.type("application/json");
+
+            Integer id = Integer.valueOf(req.params("id"));
+
+            try {
+                return new JsonResponseBuilder(StatusResponse.SUCCESS, acampanteService.findById(id)).build();
             } catch (Exception exception) {
                 return new JsonResponseBuilder(StatusResponse.ERROR, exception.getMessage()).build();
             }
@@ -85,9 +98,5 @@ public class AcampanteRouter {
         });
     }
 
-    private String buildFailedResponseAsJson(Object response) {
-        return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS,
-                new Gson()
-                        .toJsonTree(response)));
-    }
+
 }
