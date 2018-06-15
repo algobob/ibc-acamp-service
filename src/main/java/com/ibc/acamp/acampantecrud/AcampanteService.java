@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Singleton
-public class AcampanteService implements IAcampanteService {
+public class AcampanteService {
 
     private Logger LOGGER = LoggerFactory.getLogger("AcampanteService");
     private DataStoreRepository repository;
