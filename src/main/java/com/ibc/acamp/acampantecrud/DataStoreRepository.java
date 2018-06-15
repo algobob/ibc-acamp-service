@@ -10,4 +10,6 @@ public interface DataStoreRepository {
     boolean update(Acampante acampante);
 
     boolean delete(Integer id);
+
+    Acampante findById(Integer id);
 }

@@ -47,4 +47,7 @@ public class AcampanteService implements IAcampanteService {
         return acampantes.stream().map(Acampante::getNome).collect(Collectors.toList());
     }
 
+    public Acampante findById(Integer id) {
+        return repository.findById(id);
+    }
 }

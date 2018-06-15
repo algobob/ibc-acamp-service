@@ -101,4 +101,20 @@ public class AcampanteDataStoreRepository implements DataStoreRepository {
 
         return false;
     }
+
+    @Override
+    public Acampante findById(Integer id) {
+        LOGGER.info("[Find Acamapante by id][data repository] finding acmapante by id...");
+
+        String sql = String.format("SELECT * FROM %s.acampantes where id = :id",DB_SCHEMA);
+
+        try(Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Acampante.class);
+        }catch (Exception ex){
+            LOGGER.error("[Get all acampantes][data repository] {}", ex.getMessage());
+            throw ex;
+        }
+    }
 }

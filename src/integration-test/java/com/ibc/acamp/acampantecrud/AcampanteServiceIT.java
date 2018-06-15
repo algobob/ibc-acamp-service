@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -35,11 +36,23 @@ public class AcampanteServiceIT {
     }
 
     @Test
-    public void shouldListAllAcampantesSuccessfully() throws SQLException {
-        helper.insertDumbData();
+    public void shouldFetchAllAcampantesSuccessfully() throws SQLException {
+        helper.insertDumbData("maria", "feminino", 12);
         List<Acampante> acampantes = acampanteService.fetch();
 
         assertThat(acampantes.size(), is(2));
+    }
+
+    @Test
+    public void shouldFindAcampanteById() throws SQLException {
+        helper.insertDumbData("maria", "feminino", 12);
+        List<Acampante> acampantes = acampanteService.fetch();
+
+        Acampante acampante = acampantes.get(0);
+        Acampante acampanteFinded = acampanteService.findById(acampante.getId());
+        assertThat(acampanteFinded, is(notNullValue()));
+        assertThat(acampanteFinded.getId(), is(acampante.getId()));
+
     }
 
     @Test
@@ -62,7 +75,7 @@ public class AcampanteServiceIT {
 
     @Test
     public void shouldDeleteAcamapante() {
-        helper.insertDumbData();
+        helper.insertDumbData("maria", "feminino", 12);
         List<Acampante> allAcampantes = helper.fetch();
         assertThat(acampanteService.delete(allAcampantes.get(0).getId()), is(true));
         assertThat(helper.fetch().contains(allAcampantes.get(0).getId()), is(false));
@@ -70,7 +83,7 @@ public class AcampanteServiceIT {
 
         @Test
     public void shouldUpdateAcamapanteSuccessfully() throws SQLException, AcampanteInvalidoException {
-        helper.insertDumbData();
+        helper.insertDumbData("maria", "feminino", 12);
 
         Acampante acampante = acampanteService.fetch().get(0);
         Acampante acampanteUpdated = Acampante.builder()
@@ -86,7 +99,7 @@ public class AcampanteServiceIT {
 
     @Test( expected = AcampanteInvalidoException.class)
     public void shouldThrowExceptionWhenTryUpdateInvalidAcampante() throws SQLException, AcampanteInvalidoException {
-        helper.insertDumbData();
+        helper.insertDumbData("maria", "feminino", 12);
 
         Acampante acampante = acampanteService.fetch().get(0);
         Acampante acampanteUpdated = Acampante.builder()

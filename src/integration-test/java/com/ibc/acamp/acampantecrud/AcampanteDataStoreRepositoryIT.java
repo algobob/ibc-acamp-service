@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -34,7 +35,6 @@ public class AcampanteDataStoreRepositoryIT {
     @Before
     public void setUp() throws Exception {
         Guice.createInjector(new SimpleModule()).injectMembers(this);
-        helper.insertDumbData();
     }
 
     @Test
@@ -50,14 +50,35 @@ public class AcampanteDataStoreRepositoryIT {
 
     @Test
     public void fetch() throws Exception {
+        helper.insertDumbData("maria", "feminino", 12);
 
-         List result = repository.fetch();
+         List<Acampante> result = repository.fetch();
         assertThat(result.size()>0,is(true));
 
     }
 
     @Test
+    public void findAcampanteById() throws Exception {
+        helper.insertDumbData("maria","feminino",12);
+
+        List<Acampante> acampantes = repository.fetch();
+        Acampante acampante = repository.findById(acampantes.get(0).getId());
+        assertThat(acampante, is(notNullValue()));
+
+    }
+
+    @Test
+    public void didNotfindAcampanteById() throws Exception {
+        helper.insertDumbData("maria","feminino",12);
+        Integer unknownAcampanteId = -1;
+        Acampante acampante = repository.findById(unknownAcampanteId);
+        assertThat(acampante, is(notNullValue()));
+
+    }
+
+    @Test
     public void update() throws Exception {
+        helper.insertDumbData("maria", "feminino", 12);
 
         Acampante returned = repository.fetch().get(0);
         Acampante expected = buildAcampante(returned.getId(), "updated", returned.getSexo(), returned.getIdade());

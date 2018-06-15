@@ -13,8 +13,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -87,6 +90,32 @@ public class AcampanteServiceTest {
 
         assertThat(result,is(true));
         verify(repository).delete(acampante.getId());
+
+    }
+
+    @Test
+    public void findById() throws Exception {
+
+        Acampante acampante = mock(Acampante.class);
+        when(repository.findById(1)).thenReturn(acampante);
+
+        Acampante result = service.findById(1);
+
+        assertThat(result,is(notNullValue()));
+        assertThat(result, is(acampante));
+        verify(repository).findById(1);
+
+    }
+
+    @Test
+    public void DidNotfindById() throws Exception {
+
+        when(repository.findById(1)).thenReturn(null);
+
+        Acampante result = service.findById(1);
+
+        assertThat(result,is(nullValue()));
+        verify(repository).findById(1);
 
     }
 
